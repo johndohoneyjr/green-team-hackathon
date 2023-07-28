@@ -6,12 +6,12 @@ on:
       resource_group:
         description: 'RG group'
         required: true
-        default: 'dohoneytestrg'
+        default: 'hackathon-csa-west'
 
       azure_region:
         description: 'Azure Region'
         required: true
-        default: 'westus'
+        default: 'eastus'
 
 jobs:
   tenant-deployment:
