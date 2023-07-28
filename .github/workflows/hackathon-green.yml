@@ -1,0 +1,30 @@
+name: tenant-deployment
+on:
+  workflow_dispatch:
+    inputs:
+    
+      resource_group:
+        description: 'RG group'
+        required: true
+        default: 'dohoneytestrg'
+
+      azure_region:
+        description: 'Azure Region'
+        required: true
+        default: 'westus'
+
+jobs:
+  tenant-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: AZ Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CLUSTER_SERVICE_PRINCIPAL }}
+
+      - name: Install az cli 
+        uses: ./.github/actions/install-az-cli
+ 
