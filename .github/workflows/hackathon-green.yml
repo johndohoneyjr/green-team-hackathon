@@ -13,9 +13,14 @@ on:
         required: true
         default: 'eastus'
 
+
+
+
 jobs:
   tenant-deployment:
     runs-on: ubuntu-latest
+    container:
+      image: bitnami/azure-cli:2.31.0
     steps:
       - name: checkout repo
         uses: actions/checkout@v2
