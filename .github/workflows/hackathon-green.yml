@@ -13,8 +13,10 @@ on:
         required: true
         default: 'eastus'
 
-
-
+env:
+  AZURE_FUNCTIONAPP_NAME: 'RunWindows'   
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' 
+  DOTNET_VERSION: '7.0.0'    
 
 jobs:
   build-and-deploy:
@@ -24,10 +26,27 @@ jobs:
       uses: azure/login@v1
       with:
         creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: pwsh
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
         
-    - name: Run Az CLI script
-      run: |
-        az account show
-    - name: Run Az PowerShell script
-      run: |
-        Get-AzContext
+        
