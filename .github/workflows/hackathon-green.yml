@@ -17,19 +17,17 @@ on:
 
 
 jobs:
-  hackathon-deployment:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Az CLI login
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-  
-      - name: Azure CLI script
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
-            az group list
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true 
+    - name: Run Az CLI script
+      run: |
+        az account show
+    - name: Run Az PowerShell script
+      run: |
+        Get-AzContext
