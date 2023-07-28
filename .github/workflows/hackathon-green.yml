@@ -17,7 +17,7 @@ on:
 
 
 jobs:
-  hackathon-deployment:
+  deploy-hackathon-code:
     runs-on: ubuntu-latest
 
     steps:
