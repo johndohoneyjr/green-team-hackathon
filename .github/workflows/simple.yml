@@ -1,0 +1,17 @@
+name: Azure Login example
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true 
+    - name: Run Az CLI script
+      run: |
+        az account show
+    - name: Run Az PowerShell script
+      run: |
+        Get-AzContext
