@@ -16,7 +16,7 @@ on:
 env:
   AZURE_FUNCTIONAPP_NAME: 'RunWindows'   
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' 
-  DOTNET_VERSION: '7.0.0'    
+  DOTNET_VERSION: '7.0.x'    
 
 jobs:
   build-and-deploy:
