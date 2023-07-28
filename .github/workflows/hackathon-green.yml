@@ -21,7 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    
+        # install azure-cli
+      - uses: pietrobolcato/install-azure-cli-action@main
+      
+        # Login using Service Principal
       - name: AZ Login
         uses: azure/login@v1
         with:
